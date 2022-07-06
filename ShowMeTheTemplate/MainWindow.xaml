@@ -1,0 +1,138 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:compModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:data="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
+	xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+	xmlns:local="clr-namespace:ShowMeTheTemplate"
+	xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	mc:Ignorable="av"
+	x:Class="ShowMeTheTemplate.Window1"
+	Title="Show Me The Template!"
+	>
+
+	<Window.Resources>
+		<CollectionViewSource x:Key="SortedElementTypes" Source="{Binding}">
+			<CollectionViewSource.SortDescriptions>
+				<compModel:SortDescription PropertyName="ElementType.Name" Direction="Ascending" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</Window.Resources>
+
+	<Grid>
+		<Grid.Resources>
+			<DataTemplate x:Key="LeftList_AvailableTemplates">
+				<TextBlock>
+					<InlineUIContainer><TextBlock FontWeight="Bold" Text="{Binding ElementType.Name}" /></InlineUIContainer><Run Text=" (base: "/>
+					<InlineUIContainer><TextBlock Text="{Binding ElementType.BaseType.Name}" /></InlineUIContainer><Run Text=")"/>
+				</TextBlock>
+			</DataTemplate>
+
+			<ControlTemplate x:Key="ItemsControl_Template">
+				<StackPanel>
+					<GroupBox >
+						<GroupBox.Header>
+							<TextBlock  Focusable="False">
+								<InlineUIContainer><TextBlock Text="Element of type" /></InlineUIContainer><Run Text=" "/>
+								<InlineUIContainer><TextBlock Text="{Binding ElementType.FullName}" /></InlineUIContainer><Run Text=" "/>
+								<InlineUIContainer><TextBlock Text=" (if it can be shown as a child)" /></InlineUIContainer>
+							</TextBlock>
+						</GroupBox.Header>
+
+						<ContentControl DataContext="{Binding /}" 
+										DataContextChanged="ElementHolder_DataContextChanged"
+										/>
+					</GroupBox>
+
+					<ItemsPresenter x:Name="ItemsControl_ItemsPresenter" />
+
+				</StackPanel>
+			</ControlTemplate>
+
+			<DataTemplate x:Key="ItemsControl_ItemTemplate">
+				<GroupBox>
+					<GroupBox.Header>
+						<TextBlock Background="Black" Foreground="White" >
+							<InlineUIContainer><TextBlock Text="{Binding Name}" /></InlineUIContainer><Run Text=" ("/>
+							<InlineUIContainer><TextBlock Text="{Binding PropertyType.Name}" /></InlineUIContainer><Run Text=")"/>
+						</TextBlock>
+					</GroupBox.Header>
+
+					<WindowsFormsHost Name="itemTemplate_windowsFormsHost"
+										  Loaded="WindowsFormsHost_Loaded" 		
+										  Unloaded="WindowsFormsHost_Unloaded"
+										  MouseWheel="RouteMouseWheelEventToScrollViewer" 	
+										  Mouse.PreviewMouseWheel="RouteMouseWheelEventToScrollViewer"
+											MouseEnter="itemTemplate_windowsFormsHost_MouseEnter"
+										  MinHeight="30" Background="AliceBlue"								  
+										  >
+						<wf:WebBrowser Name="itemTemplate_webBrowser"
+									   Navigated="WebBrowser_Navigated"  	
+									   DocumentCompleted="WebBrowser_DocumentCompleted"
+									   ScrollBarsEnabled="False"
+									   />
+					</WindowsFormsHost>
+
+				</GroupBox>
+			</DataTemplate>
+
+		</Grid.Resources>
+
+		<Grid.DataContext>
+			<StaticResource ResourceKey="SortedElementTypes"/>
+		</Grid.DataContext>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="5" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<ListBox Grid.Row="0" Grid.Column="0" 
+				 ItemsSource="{Binding}" 
+				 ItemTemplate="{StaticResource LeftList_AvailableTemplates}" 
+				 IsSynchronizedWithCurrentItem="True"
+				 VirtualizingPanel.IsVirtualizing="False"
+				 />
+
+		<GridSplitter Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
+
+		<DockPanel Grid.Row="0" Grid.Column="2" PreviewMouseWheel="RouteMouseWheelEventToScrollViewer" MouseWheel="RouteMouseWheelEventToScrollViewer">
+			<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+				<Label Target="{Binding ElementName=themes}" Content="_Theme:"/>
+				<ComboBox x:Name="themes">
+					<ComboBoxItem Content="Aero" Tag="/PresentationFramework.Aero;v3.0.0.0;31bf3856ad364e35;Component/themes/aero.normalcolor.xaml" />
+					<ComboBoxItem Content="Luna" Tag="/PresentationFramework.Luna;v3.0.0.0;31bf3856ad364e35;Component/themes/luna.normalcolor.xaml" />
+					<ComboBoxItem Content="Luna Homestead" Tag="/PresentationFramework.Luna;v3.0.0.0;31bf3856ad364e35;Component/themes/luna.homestead.xaml" />
+					<ComboBoxItem Content="Luna Metallic" Tag="/PresentationFramework.Luna;v3.0.0.0;31bf3856ad364e35;Component/themes/luna.metallic.xaml" />
+					<ComboBoxItem Content="Classic" Tag="/PresentationFramework.Classic;v3.0.0.0;31bf3856ad364e35;Component/themes/classic.xaml" />
+					<ComboBoxItem Content="Royale" Tag="/PresentationFramework.Royale;v3.0.0.0;31bf3856ad364e35;Component/themes/royale.normalcolor.xaml" />
+				</ComboBox>
+			</StackPanel>
+
+			<Border BorderBrush="Black" BorderThickness="0.25" DockPanel.Dock="Bottom" >
+
+				<ScrollViewer x:Name="mainScrollViewer" VerticalScrollBarVisibility="Auto">
+
+					<ItemsControl	x:Name="mainItemsControl" 
+									Template="{StaticResource ItemsControl_Template}" 							  
+									ItemTemplate="{StaticResource ItemsControl_ItemTemplate}"
+									ItemsSource="{Binding TemplateProperties}"
+									PreviewMouseWheel="RouteMouseWheelEventToScrollViewer"
+									Height="Auto"
+									MinHeight="50" />
+				</ScrollViewer>
+
+			</Border>
+
+		</DockPanel>
+
+		<StatusBar Grid.Row="2" Grid.ColumnSpan="3">
+			<TextBlock><Run Text="This tool brought to you by Chris Sells &amp; Ian Griffiths as part of their book, "/><Hyperlink x:Name="bookLink"><Run Text="Programming WPF"/></Hyperlink><Run Text="."/></TextBlock>
+		</StatusBar>
+	</Grid>
+</Window>

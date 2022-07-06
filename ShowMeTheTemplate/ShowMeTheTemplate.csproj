@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net48</TargetFrameworks>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>ShowMeTheTemplate</Title>
+		<Product>ShowMeTheTemplate</Product>
+		<RootNamespace>ShowMeTheTemplate</RootNamespace>
+		<AssemblyName>ShowMeTheTemplate</AssemblyName>
+		<AssemblyTitle>ShowMeTheTemplate</AssemblyTitle>
+		<Description>A univariate, sparse, symbolic, BigInteger polynomial arithmetic class.</Description>
+		<Authors>Chris Sells, Ian Griffiths &amp; Adam White</Authors>
+		<Company>Marquee de Sells</Company>
+		<Copyright>Chris Sells &amp; Ian Griffiths</Copyright>
+		<RepositoryUrl>https://github.com/AdamWhiteHat/ShowMeTheTemplate</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</Version>
+		<AssemblyVersion>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</AssemblyVersion>
+		<FileVersion>$([System.DateTime]::Now.ToString("yyyy."$([System.DateTime]::Now.DayOfYear)".HHmm"))</FileVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<Prefer32Bit>false</Prefer32Bit>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<DebugSymbols>false</DebugSymbols>
+		<Optimize>true</Optimize>
+		<DefineConstants>TRACE</DefineConstants>
+		<Prefer32Bit>false</Prefer32Bit>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System" />
+		<Reference Include="System.Data" />
+		<Reference Include="System.Linq" />
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="System.Xaml" />
+		<Reference Include="System.Xml" />
+		<Reference Include="WindowsBase" />
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="UIAutomationProvider" />
+		<Reference Include="UIAutomationTypes" />
+		<Reference Include="ReachFramework" />
+		<Reference Include="System.Printing" />
+		<Reference Include="System.ServiceModel" />
+		<Reference Include="System.Runtime.Serialization" />
+		<Reference Include="System.IdentityModel" />
+		<Reference Include="WindowsFormsIntegration" />
+	</ItemGroup>
+
+</Project>
