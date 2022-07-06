@@ -8,8 +8,8 @@
 	xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	mc:Ignorable="av"
-	x:Class="ShowMeTheTemplate.Window1"
-	Title="Show Me The Template!"
+	x:Class="ShowMeTheTemplate.MainWindow"
+	Title="Show Me The Template! ver. 3.0"
 	>
 
 	<Window.Resources>
@@ -76,12 +76,12 @@
 
 				</GroupBox>
 			</DataTemplate>
-
 		</Grid.Resources>
 
 		<Grid.DataContext>
 			<StaticResource ResourceKey="SortedElementTypes"/>
 		</Grid.DataContext>
+
 		<Grid.RowDefinitions>
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
@@ -101,7 +101,7 @@
 
 		<GridSplitter Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" />
 
-		<DockPanel Grid.Row="0" Grid.Column="2" PreviewMouseWheel="RouteMouseWheelEventToScrollViewer" MouseWheel="RouteMouseWheelEventToScrollViewer">
+		<DockPanel Grid.Row="0" Grid.Column="2" PreviewMouseWheel="RouteMouseWheelEventToScrollViewer">
 			<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
 				<Label Target="{Binding ElementName=themes}" Content="_Theme:"/>
 				<ComboBox x:Name="themes">
@@ -115,7 +115,6 @@
 			</StackPanel>
 
 			<Border BorderBrush="Black" BorderThickness="0.25" DockPanel.Dock="Bottom" >
-
 				<ScrollViewer x:Name="mainScrollViewer" VerticalScrollBarVisibility="Auto">
 
 					<ItemsControl	x:Name="mainItemsControl" 
@@ -126,13 +125,12 @@
 									Height="Auto"
 									MinHeight="50" />
 				</ScrollViewer>
-
 			</Border>
 
 		</DockPanel>
 
 		<StatusBar Grid.Row="2" Grid.ColumnSpan="3">
-			<TextBlock><Run Text="This tool brought to you by Chris Sells &amp; Ian Griffiths as part of their book, "/><Hyperlink x:Name="bookLink"><Run Text="Programming WPF"/></Hyperlink><Run Text="."/></TextBlock>
+			<TextBlock><Run  Text="This tool brought to you by Chris Sells &amp; Ian Griffiths as part of their book, "/><Hyperlink x:Name="bookLink"><Run Text="Programming WPF"/></Hyperlink><Run Text="."/></TextBlock>
 		</StatusBar>
 	</Grid>
 </Window>

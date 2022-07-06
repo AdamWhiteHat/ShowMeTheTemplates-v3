@@ -14,17 +14,17 @@ using System.Windows.Interop;
 
 namespace ShowMeTheTemplate
 {
-	public partial class Window1 : Window
+	public partial class MainWindow : Window
 	{
 		Assembly presentationFrameworkAssembly = Assembly.LoadWithPartialName("PresentationFramework");
 		Dictionary<Type, object> typeElementMap = new Dictionary<Type, object>();
 		List<string> filesToDeleteOnExit = new List<string>();
 
-		public Window1()
+		public MainWindow()
 		{
 			InitializeComponent();
 			bookLink.Click += bookLink_Click;
-			Closing += Window1_Closing;
+			Closing += MainWindow_Closing;
 			themes.SelectionChanged += themes_SelectionChanged;
 			DataContext = new List<TemplatedElementInfo>(TemplatedElementInfo.GetTemplatedElements(presentationFrameworkAssembly));
 			themes.SelectedIndex = 0;
@@ -32,7 +32,7 @@ namespace ShowMeTheTemplate
 			CaptureMouseWheelWhenUnfocusedBehavior.NotifyScrollViewer = mainScrollViewer;
 		}
 
-		private void Window1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			filesToDeleteOnExit = filesToDeleteOnExit.Distinct().ToList();
 			foreach (string file in filesToDeleteOnExit)
